@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      纯 Compose 应用：界面全部由 Compose 绘制，XML 主题仅负责启动窗口背景与系统栏。
+      用 android:Theme.Material.NoActionBar 作基座，避免引入 com.google.android.material XML 依赖。
+    -->
+    <style name="Theme.BenXinAdmin" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/bx_window_bg</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+</resources>

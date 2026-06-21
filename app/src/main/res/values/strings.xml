@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 代码/标识统一 BenXinAdmin（守 §13.1） -->
+    <string name="app_name">BenXinAdmin</string>
+</resources>

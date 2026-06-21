@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 品牌蓝（与后台 classic / 官网同源 #2b6fff） -->
+    <color name="ic_launcher_background">#2B6FFF</color>
+    <!-- 暗色窗口背景，避免启动白屏闪烁 -->
+    <color name="bx_window_bg">#0E1116</color>
+</resources>

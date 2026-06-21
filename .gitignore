@@ -1,0 +1,23 @@
+# +----------------------------------------------------------------------
+# | @project   BenXinAdmin · 原生 Android 门面
+# | Android 标准忽略清单（显式 add，绝不 git add -A）
+# +----------------------------------------------------------------------
+
+# Gradle
+.gradle/
+build/
+/captures
+.externalNativeBuild
+.cxx
+
+# 本地配置（含 SDK 路径，绝不入库）
+local.properties
+
+# IDE
+*.iml
+.idea/
+.DS_Store
+
+# 日志/临时
+*.log
+/.kotlin

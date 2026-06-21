@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  主配置（release 生效）：全局禁止明文 HTTP，仅允许 HTTPS。
+  debug 构建由 src/debug/res/xml/network_security_config.xml 覆盖，放行本地后端明文。
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+</network-security-config>

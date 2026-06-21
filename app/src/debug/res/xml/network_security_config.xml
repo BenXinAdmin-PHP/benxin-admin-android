@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  debug 覆盖配置：默认仍禁明文，仅对本地后端域名放行明文 HTTP（仅调试）。
+  10.0.2.2 = 模拟器映射宿主机；localhost/127.0.0.1 = 真机 adb reverse 或本机。
+  真机连局域网 IP 调试时，在此追加对应 <domain> 即可。
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">10.0.2.2</domain>
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">127.0.0.1</domain>
+    </domain-config>
+</network-security-config>
