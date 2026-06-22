@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -31,6 +32,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
+import com.benxin.admin.ui.component.StatusBarIcons
 import com.benxin.admin.ui.theme.BrandBlue
 import com.benxin.admin.ui.theme.BrandBlueDeep
 
@@ -40,6 +42,7 @@ import com.benxin.admin.ui.theme.BrandBlueDeep
  */
 @Composable
 fun ProfileScreen() {
+    StatusBarIcons(darkIcons = false) // 头部深色渐变：浅色状态栏图标
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -56,10 +59,11 @@ private fun GradientHeader() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(180.dp)
             .background(
                 Brush.verticalGradient(listOf(BrandBlue, BrandBlueDeep)),
-            ),
+            )
+            .statusBarsPadding()
+            .height(180.dp),
         contentAlignment = Alignment.Center,
     ) {
         Row(
