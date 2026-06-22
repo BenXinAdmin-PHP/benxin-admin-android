@@ -256,7 +256,7 @@ private fun wrapHtml(body: String): String = """
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <style>
-  html,body{margin:0;padding:0;background:transparent;color:#1f2430;
+  html,body{margin:0;padding:0;background:transparent;color:#6b7280;
     font-size:16px;line-height:1.85;
     font-family:-apple-system,'PingFang SC','Noto Sans CJK SC','Microsoft YaHei',sans-serif;
     word-wrap:break-word;overflow-wrap:break-word;}

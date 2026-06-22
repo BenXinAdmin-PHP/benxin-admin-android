@@ -92,7 +92,9 @@ fun AppScaffold(onOpenDetail: (Long) -> Unit) {
                 )
             }
             composable(Dest.Article.route) { ArticleScreen(onOpenDetail = onOpenDetail) }
-            composable(Dest.Mine.route) { ProfileScreen() }
+            composable(Dest.Mine.route) {
+                ProfileScreen(onGoArticles = { navController.switchTab(Dest.Article.route) })
+            }
         }
     }
 }

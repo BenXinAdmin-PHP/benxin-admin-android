@@ -17,6 +17,14 @@ import kotlin.math.abs
  * 文案与 uniapp HERO_SLIDES/ABOUT/DEMO_VIDEOS 逐字一致，保证多端门面观感统一。
  */
 
+/** 应用元信息（「我的」关于弹层用，逐字对齐 uniapp APP_META）。 */
+object AppMeta {
+    const val NAME = "BenXinAdmin"
+    const val VERSION = "v0.2.1"
+    const val LICENSE = "Apache-2.0"
+    const val REPO = "https://gitee.com/binxin-admin/binxin-admin-server"
+}
+
 /** 首页 hero 轮播文案（纯渐变 + 标题 + 副标题，无图）。 */
 data class HeroSlide(val title: String, val subtitle: String)
 
