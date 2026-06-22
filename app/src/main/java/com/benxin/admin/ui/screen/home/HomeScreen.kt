@@ -62,7 +62,7 @@ import com.benxin.admin.config.DEMO_VIDEOS
 import com.benxin.admin.config.DemoVideo
 import com.benxin.admin.config.HERO_SLIDES
 import com.benxin.admin.config.HeroSlide
-import com.benxin.admin.ui.component.ContentCard
+import com.benxin.admin.ui.component.ArticleCard
 import com.benxin.admin.ui.component.StatusBarIcons
 import com.benxin.admin.ui.theme.HeroGradientColors
 import kotlinx.coroutines.delay
@@ -89,12 +89,18 @@ fun HomeScreen(
             ui.firstLoading -> item { FeaturedLoading() }
             ui.error != null -> item { FeaturedError(message = ui.error!!, onRetry = viewModel::load) }
             ui.featured.isEmpty() -> item { FeaturedEmpty() }
-            else -> items(ui.featured, key = { it.id }) { item ->
-                ContentCard(
-                    item = item,
-                    onClick = { /* TODO N2：跳转文章详情 */ },
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 6.dp),
-                )
+            else -> {
+                val catName = ui.categories.associate { it.id to it.name }
+                items(ui.featured, key = { it.id }) { item ->
+                    ArticleCard(
+                        item = item,
+                        categoryName = catName[item.categoryId],
+                        onClick = { /* TODO N2：跳转文章详情 */ },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 6.dp),
+                    )
+                }
             }
         }
         item { Spacer(Modifier.height(16.dp)) }

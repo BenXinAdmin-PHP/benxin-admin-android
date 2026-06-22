@@ -8,14 +8,17 @@
 // +----------------------------------------------------------------------
 package com.benxin.admin.ui.screen.home
 
+import com.benxin.admin.data.model.Category
 import com.benxin.admin.data.model.Content
 
 /**
  * 首页状态：hero/关于/视频均写死，首页只负责「精选 6 篇」数据。
+ * categories 供精选卡的分类胶囊（category_id → name）。
  */
 data class HomeUiState(
     val firstLoading: Boolean = true,
     val featured: List<Content> = emptyList(),
+    val categories: List<Category> = emptyList(),
     val error: String? = null,
 ) {
     val isEmpty: Boolean get() = !firstLoading && error == null && featured.isEmpty()

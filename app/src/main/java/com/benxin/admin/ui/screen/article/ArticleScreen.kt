@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.benxin.admin.data.model.Category
-import com.benxin.admin.ui.component.ContentCard
+import com.benxin.admin.ui.component.ArticleCard
 import com.benxin.admin.ui.component.EmptyView
 import com.benxin.admin.ui.component.ErrorView
 import com.benxin.admin.ui.component.LoadingSkeleton
@@ -153,6 +153,7 @@ private fun ContentList(ui: ArticleUiState, viewModel: ArticleViewModel) {
         if (shouldLoadMore) viewModel.loadMore()
     }
 
+    val catName = ui.categories.associate { it.id to it.name }
     LazyColumn(
         state = listState,
         modifier = Modifier.fillMaxSize(),
@@ -160,7 +161,12 @@ private fun ContentList(ui: ArticleUiState, viewModel: ArticleViewModel) {
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         items(ui.list, key = { it.id }) { item ->
-            ContentCard(item = item, onClick = { /* TODO N2：跳转文章详情 */ })
+            ArticleCard(
+                item = item,
+                categoryName = catName[item.categoryId],
+                onClick = { /* TODO N2：跳转文章详情 */ },
+                modifier = Modifier.fillMaxWidth(),
+            )
         }
         item {
             ListFooter(ui = ui, onRetry = viewModel::retryLoadMore)

@@ -28,7 +28,17 @@ class HomeViewModel : ViewModel() {
     val state: StateFlow<HomeUiState> = _state.asStateFlow()
 
     init {
+        loadCategories()
         load()
+    }
+
+    /** 分类（供精选卡胶囊）；失败静默降级。 */
+    private fun loadCategories() {
+        viewModelScope.launch {
+            repository.getCategories().onSuccess { cats ->
+                _state.update { it.copy(categories = cats) }
+            }
+        }
     }
 
     fun load() {
