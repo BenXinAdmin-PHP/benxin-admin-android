@@ -9,6 +9,7 @@ package com.benxin.admin.data.repository
 
 import com.benxin.admin.data.api.ApiClient
 import com.benxin.admin.data.api.ContentApi
+import com.benxin.admin.data.model.Category
 import com.benxin.admin.data.model.Content
 import com.benxin.admin.data.model.Paged
 
@@ -38,6 +39,14 @@ class ContentRepository(
 
     suspend fun getContent(id: Long): Result<Content> = runCatching {
         val resp = api.getContent(id)
+        if (resp.code != 0 || resp.data == null) {
+            throw ApiException(resp.code, resp.msg.ifBlank { "请求失败（code=${resp.code}）" })
+        }
+        resp.data
+    }
+
+    suspend fun getCategories(): Result<List<Category>> = runCatching {
+        val resp = api.getCategories()
         if (resp.code != 0 || resp.data == null) {
             throw ApiException(resp.code, resp.msg.ifBlank { "请求失败（code=${resp.code}）" })
         }

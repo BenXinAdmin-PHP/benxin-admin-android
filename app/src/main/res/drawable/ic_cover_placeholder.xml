@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 自绘 16:9 封面占位（守 §10：原创矢量 CC0）。品牌蓝底 + 白色层叠列表标记，与启动图同源。 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="160dp"
+    android:height="90dp"
+    android:viewportWidth="160"
+    android:viewportHeight="90">
+    <path
+        android:fillColor="#2B6FFF"
+        android:pathData="M0,0 H160 V90 H0 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.85"
+        android:pathData="M57,36 L103,36 A3,3 0 0 1 103,42 L57,42 A3,3 0 0 1 57,36 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.85"
+        android:pathData="M57,46 L103,46 A3,3 0 0 1 103,52 L57,52 A3,3 0 0 1 57,46 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.6"
+        android:pathData="M57,56 L89,56 A3,3 0 0 1 89,62 L57,62 A3,3 0 0 1 57,56 Z" />
+</vector>

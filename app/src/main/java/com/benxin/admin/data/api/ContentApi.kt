@@ -8,6 +8,7 @@
 package com.benxin.admin.data.api
 
 import com.benxin.admin.data.model.ApiEnvelope
+import com.benxin.admin.data.model.Category
 import com.benxin.admin.data.model.Content
 import com.benxin.admin.data.model.Paged
 import retrofit2.http.GET
@@ -34,4 +35,8 @@ interface ContentApi {
     suspend fun getContent(
         @Path("id") id: Long,
     ): ApiEnvelope<Content>
+
+    /** 内容分类 GET /api/v1/content/categories（无分页，直接返回数组） */
+    @GET("api/v1/content/categories")
+    suspend fun getCategories(): ApiEnvelope<List<Category>>
 }
