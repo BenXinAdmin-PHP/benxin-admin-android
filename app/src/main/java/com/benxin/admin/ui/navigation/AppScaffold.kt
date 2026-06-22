@@ -28,11 +28,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.benxin.admin.ui.screen.article.ArticleScreen
+import com.benxin.admin.ui.screen.detail.DetailScreen
 import com.benxin.admin.ui.screen.home.HomeScreen
 import com.benxin.admin.ui.screen.profile.ProfileScreen
 import com.benxin.admin.ui.theme.BrandBlue
@@ -48,8 +51,28 @@ sealed class Dest(val route: String, val label: String, val icon: ImageVector) {
 
 private val bottomDestinations = listOf(Dest.Home, Dest.Article, Dest.Mine)
 
+/** App 级导航：main（三 tab 主框架）↔ detail/{id}（全屏详情，隐藏底部栏）。 */
 @Composable
-fun AppScaffold() {
+fun AppNavHost() {
+    val appNav = rememberNavController()
+    NavHost(navController = appNav, startDestination = "main") {
+        composable("main") {
+            AppScaffold(onOpenDetail = { id -> appNav.navigate("detail/$id") })
+        }
+        composable(
+            route = "detail/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.LongType }),
+        ) { entry ->
+            DetailScreen(
+                id = entry.arguments?.getLong("id") ?: 0L,
+                onBack = { appNav.popBackStack() },
+            )
+        }
+    }
+}
+
+@Composable
+fun AppScaffold(onOpenDetail: (Long) -> Unit) {
     val navController = rememberNavController()
 
     Scaffold(
@@ -63,9 +86,12 @@ fun AppScaffold() {
             modifier = Modifier.padding(innerPadding),
         ) {
             composable(Dest.Home.route) {
-                HomeScreen(onSeeAllArticles = { navController.switchTab(Dest.Article.route) })
+                HomeScreen(
+                    onSeeAllArticles = { navController.switchTab(Dest.Article.route) },
+                    onOpenDetail = onOpenDetail,
+                )
             }
-            composable(Dest.Article.route) { ArticleScreen() }
+            composable(Dest.Article.route) { ArticleScreen(onOpenDetail = onOpenDetail) }
             composable(Dest.Mine.route) { ProfileScreen() }
         }
     }

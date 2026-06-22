@@ -11,7 +11,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.benxin.admin.ui.navigation.AppScaffold
+import com.benxin.admin.ui.navigation.AppNavHost
 import com.benxin.admin.ui.theme.BenXinAdminTheme
 
 /**
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BenXinAdminTheme {
-                AppScaffold()
+                AppNavHost()
             }
         }
     }

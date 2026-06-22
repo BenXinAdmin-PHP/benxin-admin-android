@@ -70,6 +70,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun HomeScreen(
     onSeeAllArticles: () -> Unit,
+    onOpenDetail: (Long) -> Unit,
     viewModel: HomeViewModel = viewModel(),
 ) {
     StatusBarIcons(darkIcons = false) // 首页 hero 深底：浅色状态栏图标
@@ -95,7 +96,7 @@ fun HomeScreen(
                     ArticleCard(
                         item = item,
                         categoryName = catName[item.categoryId],
-                        onClick = { /* TODO N2：跳转文章详情 */ },
+                        onClick = { onOpenDetail(item.id) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp, vertical = 6.dp),

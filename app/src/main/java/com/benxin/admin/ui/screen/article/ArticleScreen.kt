@@ -54,7 +54,10 @@ import com.benxin.admin.ui.component.StatusBarIcons
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArticleScreen(viewModel: ArticleViewModel = viewModel()) {
+fun ArticleScreen(
+    onOpenDetail: (Long) -> Unit,
+    viewModel: ArticleViewModel = viewModel(),
+) {
     StatusBarIcons(darkIcons = true) // 浅底页：深色状态栏图标
     val ui by viewModel.state.collectAsStateWithLifecycle()
 
@@ -105,7 +108,7 @@ fun ArticleScreen(viewModel: ArticleViewModel = viewModel()) {
                     ErrorView(message = ui.error!!, onRetry = viewModel::retryFirstLoad)
                 ui.list.isEmpty() ->
                     EmptyView(message = if (ui.keyword.isNotBlank()) "没有匹配的文章" else "暂无内容")
-                else -> ContentList(ui = ui, viewModel = viewModel)
+                else -> ContentList(ui = ui, viewModel = viewModel, onOpenDetail = onOpenDetail)
             }
         }
     }
@@ -140,7 +143,11 @@ private fun CategoryChips(
 }
 
 @Composable
-private fun ContentList(ui: ArticleUiState, viewModel: ArticleViewModel) {
+private fun ContentList(
+    ui: ArticleUiState,
+    viewModel: ArticleViewModel,
+    onOpenDetail: (Long) -> Unit,
+) {
     val listState = rememberLazyListState()
     val shouldLoadMore by remember {
         derivedStateOf {
@@ -164,7 +171,7 @@ private fun ContentList(ui: ArticleUiState, viewModel: ArticleViewModel) {
             ArticleCard(
                 item = item,
                 categoryName = catName[item.categoryId],
-                onClick = { /* TODO N2：跳转文章详情 */ },
+                onClick = { onOpenDetail(item.id) },
                 modifier = Modifier.fillMaxWidth(),
             )
         }
