@@ -20,5 +20,9 @@
 `app/build.gradle.kts` 中 debug `BASE_URL` 默认 `http://10.0.2.2:8801`（仅模拟器访问宿主机可用）。
 真机请改为宿主机局域网 IP（如 `http://192.168.x.x:8801`）；debug 已对该明文按白名单放行（**仅调试**），release 强制 HTTPS。
 
+### 发布地址
+构建发布包前设置 `BENXIN_API_BASE_URL=https://你的后端域名`（环境变量或 Gradle 属性）。
+未配置真实 HTTPS 地址时，`preReleaseBuild` 会阻止发布包构建。
+
 ## 许可证
 Apache-2.0，详见 [LICENSE](./LICENSE)。

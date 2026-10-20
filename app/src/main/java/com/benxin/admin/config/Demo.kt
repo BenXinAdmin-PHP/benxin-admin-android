@@ -23,6 +23,7 @@ object AppMeta {
     const val VERSION = "v0.2.1"
     const val LICENSE = "Apache-2.0"
     const val REPO = "https://gitee.com/binxin-admin/binxin-admin-server"
+    const val FEEDBACK_EMAIL = "3442535897@qq.com"
 }
 
 /** 首页 hero 轮播文案（纯渐变 + 标题 + 副标题，无图）。 */

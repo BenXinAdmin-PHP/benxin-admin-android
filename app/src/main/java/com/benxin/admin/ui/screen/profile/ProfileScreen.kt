@@ -10,7 +10,11 @@ package com.benxin.admin.ui.screen.profile
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -69,7 +73,7 @@ private val MineHeaderGradient = listOf(Color(0xFF0A1F44), Color(0xFF21478F), Co
 
 /**
  * 「我的」未登录态门面（1:1 uniapp Style B）：渐变头部 + 四宫格 + 列表卡 + 关于弹层。
- * 登录态/真实外链/持久化留 N3；占位项点击给诚实反馈（Toast），不虚构功能。
+ * 登录态留 N3；反馈使用系统邮件客户端，应用设置打开系统设置页。
  */
 @Composable
 fun ProfileScreen(onGoArticles: () -> Unit) {
@@ -91,12 +95,12 @@ fun ProfileScreen(onGoArticles: () -> Unit) {
                 onArticles = onGoArticles,
                 onAbout = { showAbout = true },
                 onDocs = { context.copyRepoToast() },
-                onSettings = { context.toast("设置功能开发中") },
+                onSettings = { context.openAppSettings() },
             )
             Spacer(Modifier.height(14.dp))
             MenuCard(
                 onDocs = { context.copyRepoToast() },
-                onFeedback = { context.toast("意见反馈为演示占位") },
+                onFeedback = { context.openFeedback() },
                 onAbout = { showAbout = true },
             )
         }
@@ -185,7 +189,7 @@ private fun GridCard(
             GridItem("文章", Icons.AutoMirrored.Filled.List, Modifier.weight(1f), onArticles)
             GridItem("关于", Icons.Filled.Info, Modifier.weight(1f), onAbout)
             GridItem("文档", Icons.Filled.Description, Modifier.weight(1f), onDocs)
-            GridItem("设置", Icons.Filled.Settings, Modifier.weight(1f), onSettings)
+            GridItem("应用设置", Icons.Filled.Settings, Modifier.weight(1f), onSettings)
         }
     }
 }
@@ -230,7 +234,7 @@ private fun MenuCard(onDocs: () -> Unit, onFeedback: () -> Unit, onAbout: () -> 
         Column {
             MenuItem(text = "项目文档", onClick = onDocs)
             MenuDivider()
-            MenuItem(text = "意见反馈", demoTag = true, onClick = onFeedback)
+            MenuItem(text = "意见反馈", onClick = onFeedback)
             MenuDivider()
             MenuItem(text = "关于 BenXinAdmin", onClick = onAbout)
         }
@@ -238,7 +242,7 @@ private fun MenuCard(onDocs: () -> Unit, onFeedback: () -> Unit, onAbout: () -> 
 }
 
 @Composable
-private fun MenuItem(text: String, demoTag: Boolean = false, onClick: () -> Unit) {
+private fun MenuItem(text: String, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -253,21 +257,6 @@ private fun MenuItem(text: String, demoTag: Boolean = false, onClick: () -> Unit
             color = MaterialTheme.colorScheme.onSurface,
         )
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            if (demoTag) {
-                Surface(
-                    color = MaterialTheme.colorScheme.background,
-                    shape = RoundedCornerShape(999.dp),
-                    border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-                ) {
-                    Text(
-                        text = "演示",
-                        style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.secondary,
-                        fontSize = 10.sp,
-                        modifier = Modifier.padding(horizontal = 7.dp, vertical = 1.dp),
-                    )
-                }
-            }
             Text(text = "›", fontSize = 18.sp, color = MaterialTheme.colorScheme.secondary)
         }
     }
@@ -313,4 +302,22 @@ private fun Context.copyRepoToast(copiedMsg: String = "文档链接已复制，�
     val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     cm.setPrimaryClip(ClipData.newPlainText("repo", AppMeta.REPO))
     toast(copiedMsg)
+}
+
+private fun Context.openAppSettings() {
+    startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:$packageName")))
+}
+
+private fun Context.openFeedback() {
+    val email = AppMeta.FEEDBACK_EMAIL
+    val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$email")).apply {
+        putExtra(Intent.EXTRA_SUBJECT, "BenXinAdmin 意见反馈")
+    }
+    try {
+        startActivity(intent)
+    } catch (_: ActivityNotFoundException) {
+        val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        cm.setPrimaryClip(ClipData.newPlainText("feedback email", email))
+        toast("反馈邮箱已复制，请通过邮件发送")
+    }
 }

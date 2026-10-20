@@ -7,12 +7,32 @@
 // +----------------------------------------------------------------------
 
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.net.URI
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+}
+
+val releaseApiBase = providers.gradleProperty("BENXIN_API_BASE_URL")
+    .orElse(providers.environmentVariable("BENXIN_API_BASE_URL"))
+    .orNull
+
+val checkReleaseApiBase = tasks.register("checkReleaseApiBase") {
+    doLast {
+        val url = runCatching { releaseApiBase?.let(::URI) }.getOrNull()
+        val host = url?.host.orEmpty()
+        require(url?.scheme == "https" && host.isNotBlank() &&
+            !host.endsWith(".example.com") && host != "localhost") {
+            "发布包必须通过 BENXIN_API_BASE_URL 指定真实 HTTPS 后端地址"
+        }
+    }
+}
+
+tasks.matching { it.name == "preReleaseBuild" }.configureEach {
+    dependsOn(checkReleaseApiBase)
 }
 
 android {
@@ -38,8 +58,8 @@ android {
             isMinifyEnabled = false
         }
         getByName("release") {
-            // 占位：上线时替换为正式 HTTPS 域名
-            buildConfigField("String", "BASE_URL", "\"https://api.benxin.example.com\"")
+            // 发布包必须显式指定真实 HTTPS 地址；preReleaseBuild 会阻断缺失配置。
+            buildConfigField("String", "BASE_URL", "\"${releaseApiBase ?: "https://invalid.example.com"}\"")
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
